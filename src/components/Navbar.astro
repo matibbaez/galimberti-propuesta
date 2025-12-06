@@ -16,7 +16,7 @@
 
       <nav class="hidden md:flex items-center gap-6">
         <a href="#servicios" class="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors">Servicios</a>
-        <a href="#especialidades" class="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors">Especialidades</a>
+        <a href="#filosofia" class="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors">Filosofía</a>
         <a href="#contacto" class="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors">Contacto</a>
         
         <a href="https://wa.me/5491100000000" target="_blank" class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-blue-700 transition-all hover:scale-[1.02]">
@@ -37,10 +37,10 @@
     </div>
   </div>
 
-  <div id="mobile-menu" class="hidden md:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-200 shadow-xl overflow-hidden">
+  <div id="mobile-menu" class="md:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-200 shadow-xl overflow-hidden max-h-0 transition-all duration-300 ease-in-out">
     <div class="space-y-1 px-4 pb-4 pt-2">
       <a href="#servicios" class="block py-3 text-sm font-medium text-slate-700 hover:bg-gray-100">Servicios</a>
-      <a href="#especialidades" class="block py-3 text-sm font-medium text-slate-700 hover:bg-gray-100">Especialidades</a>
+      <a href="#filosofia" class="block py-3 text-sm font-medium text-slate-700 hover:bg-gray-100">Filosofía</a>
       <a href="#contacto" class="block py-3 text-sm font-medium text-slate-700 hover:bg-gray-100">Contacto</a>
       <a href="https://wa.me/5491100000000" class="mt-3 block text-center py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700">Iniciar Consulta</a>
     </div>
@@ -48,30 +48,21 @@
 </header>
 
 <style>
-  /* CSS para la transformación de Hamburguesa a Cruz */
-  :global(.menu-active) .hamburger-line:nth-child(1) {
-    top: 50% !important;
-    transform: translateY(-50%) rotate(45deg);
-  }
-  :global(.menu-active) .hamburger-line:nth-child(2) {
-    opacity: 0;
-    transform: scale(0);
-  }
-  :global(.menu-active) .hamburger-line:nth-child(3) {
-    bottom: auto !important;
-    top: 50% !important;
-    transform: translateY(-50%) rotate(-45deg);
-  }
+  /* CSS para la transformación de Hamburguesa a Cruz (Solución robusta) */
+  :global(.menu-active) .hamburger-line:nth-child(1) { top: 50% !important; transform: translateY(-50%) rotate(45deg); }
+  :global(.menu-active) .hamburger-line:nth-child(2) { opacity: 0; transform: scale(0); }
+  :global(.menu-active) .hamburger-line:nth-child(3) { bottom: auto !important; top: 50% !important; transform: translateY(-50%) rotate(-45deg); }
 </style>
 
 <script>
-  // Script Vanilla JS para el toggle del menú móvil y la animación (usando maxHeight para slide)
+  // SCRIPT VANILLA JS PARA EL TOGGLE Y LA ANIMACIÓN
   document.addEventListener('DOMContentLoaded', () => {
       const btn = document.getElementById('mobile-menu-btn');
-      const menu = document.getElementById('mobile-menu');
+      const menu = document.getElementById('mobile-menu'); // El contenedor del menú
+      const innerContent = menu?.querySelector('div'); // El contenido interno para el cálculo de altura
 
-      if (btn && menu) {
-          // Inicializar como cerrado para la animación
+      if (btn && menu && innerContent) {
+          // Aseguramos el estado inicial cerrado
           menu.style.maxHeight = '0';
           
           btn.addEventListener('click', () => {
@@ -83,11 +74,8 @@
                   btn.setAttribute('aria-expanded', 'false');
                   btn.classList.remove('menu-active');
               } else {
-                  // ABRIR: Calcular la altura real del contenido
-                  const content = menu.querySelector('div');
-                  if (content) {
-                      menu.style.maxHeight = content.scrollHeight + 'px';
-                  }
+                  // ABRIR: Calcular la altura real y aplicar la animación
+                  menu.style.maxHeight = innerContent.scrollHeight + 'px';
                   btn.setAttribute('aria-expanded', 'true');
                   btn.classList.add('menu-active');
               }
