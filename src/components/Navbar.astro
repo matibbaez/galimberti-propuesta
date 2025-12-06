@@ -1,0 +1,106 @@
+---
+// NavbarGalimberti.astro - Estudio Galimberti
+---
+<header class="fixed top-0 left-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="flex h-20 items-center justify-between">
+      
+      <div class="flex flex-col">
+        <a href="#inicio" class="text-2xl font-bold text-slate-900 tracking-tight font-sans hover:text-blue-700 transition-colors">
+          Estudio Galimberti
+        </a>
+        <span class="text-xs text-slate-500 font-medium tracking-wider uppercase">
+          Asesoría Legal Personalizada
+        </span>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="#servicios" class="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors">Servicios</a>
+        <a href="#especialidades" class="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors">Especialidades</a>
+        <a href="#contacto" class="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors">Contacto</a>
+        
+        <a href="https://wa.me/5491100000000" target="_blank" class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-blue-700 transition-all hover:scale-[1.02]">
+          Iniciar Consulta
+        </a>
+      </nav>
+
+      <div class="md:hidden">
+        <button id="mobile-menu-btn" type="button" class="group relative w-12 h-12 focus:outline-none" aria-label="Abrir menú" aria-expanded="false">
+            <div class="absolute left-1/2 top-1/2 w-6 h-5 -translate-x-1/2 -translate-y-1/2">
+                <span class="hamburger-line absolute top-0 left-0 w-full h-0.5 bg-slate-800 rounded-full transition-all duration-300 ease-in-out origin-center"></span>
+                <span class="hamburger-line absolute top-1/2 -translate-y-1/2 left-0 w-full h-0.5 bg-slate-800 rounded-full transition-all duration-300 ease-in-out"></span>
+                <span class="hamburger-line absolute bottom-0 left-0 w-full h-0.5 bg-slate-800 rounded-full transition-all duration-300 ease-in-out origin-center"></span>
+            </div>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="hidden md:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-200 shadow-xl overflow-hidden">
+    <div class="space-y-1 px-4 pb-4 pt-2">
+      <a href="#servicios" class="block py-3 text-sm font-medium text-slate-700 hover:bg-gray-100">Servicios</a>
+      <a href="#especialidades" class="block py-3 text-sm font-medium text-slate-700 hover:bg-gray-100">Especialidades</a>
+      <a href="#contacto" class="block py-3 text-sm font-medium text-slate-700 hover:bg-gray-100">Contacto</a>
+      <a href="https://wa.me/5491100000000" class="mt-3 block text-center py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700">Iniciar Consulta</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* CSS para la transformación de Hamburguesa a Cruz */
+  :global(.menu-active) .hamburger-line:nth-child(1) {
+    top: 50% !important;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  :global(.menu-active) .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scale(0);
+  }
+  :global(.menu-active) .hamburger-line:nth-child(3) {
+    bottom: auto !important;
+    top: 50% !important;
+    transform: translateY(-50%) rotate(-45deg);
+  }
+</style>
+
+<script>
+  // Script Vanilla JS para el toggle del menú móvil y la animación (usando maxHeight para slide)
+  document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('mobile-menu-btn');
+      const menu = document.getElementById('mobile-menu');
+
+      if (btn && menu) {
+          // Inicializar como cerrado para la animación
+          menu.style.maxHeight = '0';
+          
+          btn.addEventListener('click', () => {
+              const isOpen = btn.getAttribute('aria-expanded') === 'true';
+              
+              if (isOpen) {
+                  // CERRAR
+                  menu.style.maxHeight = '0';
+                  btn.setAttribute('aria-expanded', 'false');
+                  btn.classList.remove('menu-active');
+              } else {
+                  // ABRIR: Calcular la altura real del contenido
+                  const content = menu.querySelector('div');
+                  if (content) {
+                      menu.style.maxHeight = content.scrollHeight + 'px';
+                  }
+                  btn.setAttribute('aria-expanded', 'true');
+                  btn.classList.add('menu-active');
+              }
+          });
+
+          // Cerrar menú al hacer clic en un enlace (Mejora UX)
+          menu.querySelectorAll('a').forEach(link => {
+              link.addEventListener('click', () => {
+                  menu.style.maxHeight = '0';
+                  btn.classList.remove('menu-active');
+                  btn.setAttribute('aria-expanded', 'false');
+              });
+          });
+      }
+  });
+</script>
